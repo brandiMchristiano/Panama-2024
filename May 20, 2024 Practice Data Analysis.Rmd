@@ -10,13 +10,14 @@ head(batpractice)
 ```{r}
 library("ggplot2")
 library("dplyr")
-
+library("patchwork")
+library("tidyverse")
 ```
 
 ```{r}
 # Filter out the  different tests (either the playback or the control) and make them new data frames 
 
-#Playback & Control
+# Playback & Control
 PC <- batpractice %>%
   filter(Stimulus.A == "P" & Stumulus.B == "C")
 PC
@@ -56,7 +57,127 @@ CandS
 
 
 ```{r}
-plot1<-ggplot(data=batpractice, aes(Choice ))
+#  ----- FIGURES -----
+
+# Bargraphs
+
+plot1 <- ggplot(PandC, aes(x = Choice)) +
+  geom_bar() +
+  labs(title = "Playback and Control",
+       x = "Choice") +
+  theme_minimal()
+
+plot2 <- ggplot(PandS, aes(x = Choice)) +
+  geom_bar() +
+  labs(title = "Playback and Silence",
+       x = "Choice") +
+  theme_minimal()
+
+plot3 <- ggplot(CandS, aes(x = Choice)) +
+  geom_bar() +
+  labs(title = "Control and Silence",
+       x = "Choice") +
+  theme_minimal()
+
+
+combined_plot <- plot1 + plot2 + plot3 # need "patchwork" library
+combined_plot
+
+
+# Latency
+plotB1<-ggplot(PandC, aes(x = Choice, y = Latency)) + 
+  geom_boxplot() +
+   geom_jitter(width = 0.2, alpha = 0.5) +
+  theme_minimal() +
+  labs(title = "Latency Playback & Control",
+       x = "Choice Type",
+       y = "Latency")
+plotB1
+
+plotB2<-ggplot(PandS, aes(x = Choice, y = Latency)) + 
+  geom_boxplot() +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  theme_minimal() +
+  labs(title = "Latency Playback & Silence",
+       x = "Choice Type",
+       y = "Latency")
+plotB2
+
+plotB3<-ggplot(CandS, aes(x = Choice, y = Latency)) + 
+  geom_boxplot() +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  theme_minimal() +
+  labs(title = "Latency Control & Silence",
+       x = "Choice Type",
+       y = "Latency")
+plotB3
+
+combined_Bplots <- plotB1 + plotB2 + plotB3
+combined_Bplots
 ```
+
+```{r}
+# ----- STATS ----
+
+
+
+# --  Binomial Tests -- 
+
+# Playback and Control
+PandC
+PC_cleaned <-na.omit(PandC)
+PCsuccess <-sum(PC_cleaned$Choice=="P")
+PCfail <- sum(PC_cleaned$Choice=="C")
+
+PCresults <- binom.test(PCsuccess,length(PC_cleaned$Choice), p=0.5, alternative= "two.sided") # might need to change "two sided" to "greater" or "less" 
+PCresults
+
+# Playback and Silence
+PandS
+PS_cleaned <-na.omit(PandS)
+PSsuccess <-sum(PS_cleaned$Choice=="P")
+PSfail <- sum(PS_cleaned$Choice=="S")
+
+PSresults <- binom.test(PSsuccess,length(PS_cleaned$Choice), p=0.5, alternative= "two.sided") 
+PSresults
+
+# Control and Silence
+CandS
+CS_cleaned <-na.omit(CandS)
+CSsuccess <-sum(CS_cleaned$Choice=="C")
+CSfail <- sum(CS_cleaned$Choice=="S")
+
+CSresults <- binom.test(CSsuccess,length(CS_cleaned$Choice), p=0.5, alternative= "two.sided") 
+CSresults
+
+
+
+
+# -- Latencies --
+
+# PLayback and Control
+latency_C <- PandC$Latency[PandC$Choice == 'C']
+latency_P <- PandC$Latency[PandC$Choice == 'P']
+
+PCresultB <- wilcox.test(latency_C, latency_P) # Mann Whitney U test
+print(PCresultB)
+
+# PLayback and Silence
+latency_S <- PandS$Latency[PandS$Choice == 'S']
+latency_P <- PandS$Latency[PandS$Choice == 'P']
+
+PSresultB <- wilcox.test(latency_S, latency_P) # Mann Whitney U test
+print(PSresultB)
+
+# Control and Silence
+latency_S <- CandS$Latency[CandS$Choice == 'S']
+latency_C <- CandS$Latency[CandS$Choice == 'C']
+
+CSresultB <- wilcox.test(latency_S, latency_C) # Mann Whitney U test
+print(CSresultB)
+
+```
+
+
 
 
