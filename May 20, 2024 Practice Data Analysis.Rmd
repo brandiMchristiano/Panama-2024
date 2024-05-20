@@ -2,17 +2,61 @@
 title: "May 20, 2024 Practice Data Analysis"
 output: html_notebook
 ---
-
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
-
 ```{r}
-plot(cars)
+setwd <-("C:/Users/15707/OneDrive/Desktop/Panama 2024/Data")
+batpractice<-read.csv("May 20, 2024 Practice Data.csv")
+head(batpractice)
+```
+```{r}
+library("ggplot2")
+library("dplyr")
+
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+```{r}
+# Filter out the  different tests (either the playback or the control) and make them new data frames 
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+#Playback & Control
+PC <- batpractice %>%
+  filter(Stimulus.A == "P" & Stumulus.B == "C")
+PC
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+PC2 <- batpractice %>%
+  filter(Stimulus.A == "C" & Stumulus.B == "P")
+
+PC2
+# bind them into a new data frame
+PandC <- rbind(PC, PC2)
+PandC
+
+# Playback and Silence 
+PS <- batpractice %>%
+  filter(Stimulus.A == "P" & Stumulus.B == "S")
+PS
+
+PS2 <-batpractice %>%
+  filter(Stimulus.A == "S" & Stumulus.B == "P")
+PS2
+
+PandS <-rbind(PS, PS2)
+PandS
+
+# Control and Silence 
+CS <- batpractice %>%
+  filter(Stimulus.A == "C" & Stumulus.B == "S")
+CS
+
+CS2<- batpractice %>%
+  filter(Stimulus.A == "S" & Stumulus.B == "C")
+CS2
+
+CandS <-rbind(CS , CS2)
+CandS
+```
+
+
+```{r}
+plot1<-ggplot(data=batpractice, aes(Choice ))
+```
+
+
