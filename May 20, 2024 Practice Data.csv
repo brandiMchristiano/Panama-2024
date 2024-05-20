@@ -1,6 +1,6 @@
 Bat,Sex,Bat Number,Stimulus A,Stumulus B,Left Stimulus,Right Stimulus,Choice,Latency
-aa,m,1,P,C,P,C,P,15
-ab,f,2,S,P,P,S,P,17
+aa,m,1,P,C,P,C,C,15
+ab,f,2,S,P,P,S,S,17
 ac,m,3,C,S,C,S,NA,200
 sv,f,4,P,C,C,P,P,27
 sb,m,5,S,P,S,P,P,19
