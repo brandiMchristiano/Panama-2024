@@ -1,0 +1,16 @@
+Bat,Sex,Bat Number,Stimulus A,Stumulus B,Left Stimulus,Right Stimulus,Choice,Latency
+aa,m,1,P,C,P,C,P,15
+ab,f,2,S,P,P,S,P,17
+ac,m,3,C,S,C,S,NA,200
+sv,f,4,P,C,C,P,P,27
+sb,m,5,S,P,S,P,P,19
+sd,f,6,C,S,S,C,S,70
+dc,f,7,P,C,P,C,P,16
+dv,f,8,S,P,P,S,P,25
+db,m,9,C,S,C,S,NA,200
+d,f,10,P,C,C,P,P,22
+bd,m,11,S,P,S,P,P,16
+e,m,12,C,S,S,C,C,40
+reqw,m,13,P,C,P,C,P,32
+rtt,f,14,S,P,P,S,P,14
+rd,f,15,C,S,C,S,NA,200
